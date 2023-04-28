@@ -49,15 +49,16 @@ services:
         image: 'gnamonlinemenu/gnam-frontend:0.1.0'
         ports:
             - 3000:3000
-    mongo:
-        container_name: mongo
-        image: 'mongo:4.0'
+    postgres:
+        container_name: postgres
+        image: 'postgres:14'
         restart: always
+        environment:
+        POSTGRES_USER: gnam
+        POSTGRES_PASSWORD: gnam
+        POSTGRES_DB: gnam
         ports:
-        - 27017:27017
-        volumes:
-        - ./mongo/volumes/mongo:/data/db
-        - ./mongo/mongodump:/dump
+        - "5432:5432"
     gnam-backend:
         container_name: gnam-backend
         image: 'gnamonlinemenu/gnam-backend:0.1.0'
