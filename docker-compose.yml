@@ -46,22 +46,24 @@ services:
             - ./certbot/data:/var/www/html
     gnam-portal:
         image: "gnamonlinemenu/gnam-frontend-portal:0.0.1-SNAPSHOT"
+        container_name: gnam-portal
         ports:
         - "3000:3000"
         environment:
-        - API_INBOUND_URL=gnam-backend:8080
-        - QRCODE_BASE_URL=gnam-client:3000
-        - AUTH0_BASE_URL=https://www.my.gnamm.app:3000
+        - API_INBOUND_URL=https://www.my.gnamm.app/api
+        - QRCODE_BASE_URL=http://gnam-client:3000
+        - AUTH0_BASE_URL=https://www.my.gnamm.app
         - AUTH0_SECRET=
         - AUTH0_ISSUER_BASE_URL=
         - AUTH0_CLIENT_ID=
         - AUTH0_CLIENT_SECRET=
     gnam-client:
         image: "gnamonlinemenu/gnam-frontend-client:0.0.1-SNAPSHOT"
+        container_name: gnam-client
         ports:
         - "3001:3000"
         environment:
-        - API_INBOUND_URL=gnam-backend:8080
+        - API_INBOUND_URL=https://www.my.gnamm.app/api
     mongo:
         container_name: mongo
         image: 'mongo:4.0'
@@ -73,7 +75,8 @@ services:
         - ./mongo/mongodump:/dump
     gnam-backend:
         container_name: gnam-backend
-        image: 'gnamonlinemenu/gnam-backend:0.1.0'
+        image: 'gnamonlinemenu/gnam-backend:0.1.2'
+
         environment:
         - MONGODB_URI=mongodb://mongo:27017
         ports:
