@@ -64,19 +64,19 @@ services:
         - "3001:3000"
         environment:
         - API_INBOUND_URL=https://www.my.gnamm.app/api
-    mongo:
-        container_name: mongo
-        image: 'mongo:4.0'
+    postgres:
+        container_name: postgres
+        image: 'postgres:14'
         restart: always
+        environment:
+        POSTGRES_USER: gnam
+        POSTGRES_PASSWORD: gnam
+        POSTGRES_DB: gnam
         ports:
-        - 27017:27017
-        volumes:
-        - ./mongo/volumes/mongo:/data/db
-        - ./mongo/mongodump:/dump
+        - "5432:5432"
     gnam-backend:
         container_name: gnam-backend
         image: 'gnamonlinemenu/gnam-backend:0.1.2'
-
         environment:
         - MONGODB_URI=mongodb://mongo:27017
         ports:
